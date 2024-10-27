@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selamat Ulang Tahun!</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            font-family: 'Arial', sans-serif;
+            overflow-x: hidden;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 0;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-top: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h2 {
+            color: white;
+            text-align: center;
+            margin: 2rem 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            width: 80%;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+
+        .image-box {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            text-align: center;
+            position: relative;
+        }
+
+        .image-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .slide-number {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        button {
+            background: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #f1f1f1;
+            transform: scale(1.05);
+        }
+
+        .video-section {
+            background: linear-gradient(45deg, #feca57, #ff6b6b);
+            width: 100%;
+            padding: 2rem 0;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-info h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .video-info p {
+            color: #666;
+            margin: 0.5rem 0 0;
+        }
+
+        @media (max-width: 768px) {
+            .video-grid {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .image-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #f00;
+            animation: confetti 5s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-30px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+        }
+
+        /* Birthday explosion effect */
+        @keyframes explode {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        .explosion {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            animation: explode 0.8s forwards;
+        }
+
+     
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-100vh);
+            }
+        }
+
+        /* Birthday Cake */
+        .cake {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 100px;
+            background: url('cake.png') no-repeat center / contain;
+            animation: appear 1s forwards;
+        }
+
+        @keyframes appear {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <section class="hero-section">
+        <div class="header">
+            <h1>🎉 Selamat Ulang Tahun sayang ! 🎉</h1>
+            <p>ciee 20 tahun eeSemoga semua impianmu menjadi kenyataan!</p>
+        </div>
+
+        <div class="image-grid">
+            <div class="image-box">
+                <img src="1.jpeg" alt="Foto 1">
+                <div class="slide-number">1/15</div>
+            </div>
+            <div class="image-box">
+                <img src="2.jpeg" alt="Foto 2">
+                <div class="slide-number">2/15</div>
+            </div>
+            <div class="image-box">
+                <img src="3.jpeg" alt="Foto 3">
+                <div class="slide-number">3/15</div>
+            </div>
+            <div class="image-box">
+                <img src="4.jpeg" alt="Foto 4">
+                <div class="slide-number">4/15</div>
+            </div>
+            <div class="image-box">
+                <img src="5.jpeg" alt="Foto 5">
+                <div class="slide-number">5/15</div>
+            </div>
+            <div class="image-box">
+                <img src="6.jpeg" alt="Foto 6">
+                <div class="slide-number">6/15</div>
+            </div>
+            <div class="image-box">
+                <img src="7.jpeg" alt="Foto 7">
+                <div class="slide-number">7/15</div>
+            </div>
+            <div class="image-box">
+                <img src="8.jpeg" alt="Foto 8">
+                <div class="slide-number">8/15</div>
+            </div>
+            <div class="image-box">
+                <img src="9.jpeg" alt="Foto 9">
+                <div class="slide-number">9/15</div>
+            </div>
+            <div class="image-box">
+                <img src="10.jpeg" alt="Foto 10">
+                <div class="slide-number">10/15</div>
+            </div>
+            <div class="image-box">
+                <img src="11.jpeg" alt="Foto 11">
+                <div class="slide-number">11/15</div>
+            </div>
+            <div class="image-box">
+                <img src="12.jpeg" alt="Foto 12">
+                <div class="slide-number">12/15</div>
+            </div>
+            <div class="image-box">
+                <img src="13.jpeg" alt="Foto 13">
+                <div class="slide-number">13/15</div>
+            </div>
+            <div class="image-box">
+                <img src="14.jpeg" alt="Foto 14">
+                <div class="slide-number">14/15</div>
+            </div>
+            <div class="image-box">
+                <img src="15.jpeg" alt="Foto 15">
+                <div class="slide-number">15/15</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button onclick="toggleMusic()">🎵 Play/Pause Musik</button>
+            <button onclick="prevSlide()">⬅️ Foto Sebelumnya</button>
+            <button onclick="nextSlide()">Foto Selanjutnya ➡️</button>
+        </div>
+
+        <div class="scroll-indicator" onclick="scrollToVideos()">⬇️</div>
+    </section>
+
+    <section class="video-section">
+        <h2>📽️ Video Kenangan 📽️</h2>
+        <div class="video-grid">
+            <div class="video-card">
+                <div class="video-container">
+                    <video width="100%" height="100%" controls>
+                        <source src="17.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                </div>
+                <div class="video-info">
+                    <h3>Foto setelah perpisahan sekolah</h3>
+                    <p>Hitam ku premium dari baju sampai ke kulit ayy comel buaaangaeett</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container">
+                    <video width="100%" height="100%" controls>
+                        <source src="16.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                </div>
+                <div class="video-info">
+                    <h3>Makan di luar pertama kali sama keluarga ayyy</h3>
+                    <p>Maluku anjir</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container">
+                    <video width="100%" height="100%" controls>
+                        <source src="18.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                </div>
+                <div class="video-info">
+                    <h3>Video love pertama ayy</h3>
+                    <p>My favorite one</p>
+                </div>
+            </div>
+
+            <div class="video-card">
+                <div class="video-container">
+                    <video width="100%" height="100%" controls>
+                        <source src="19.mp4" type="video/mp4">
+                        Browser Anda tidak mendukung tag video.
+                    </video>
+                </div>
+                <div class="video-info">
+                    <h3>Baju adat</h3>
+                    <p>Momen spesial</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <audio id="birthdaySong" loop>
+        <source src="Bunny Girl - 【Akasaki】.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        // Musik otomatis
+        const audio = document.getElementById('birthdaySong');
+
+        function toggleMusic() {
+            if (audio.paused) {
+                audio.play();
+            } else {
+                audio.pause();
+            }
+        }
+
+        // Auto play musik saat halaman dibuka
+        document.body.addEventListener('click', function() {
+            audio.play();
+        }, { once: true });
+
+        // Slideshow control
+        const slidesContainer = document.querySelector('.slides');
+        const slides = document.querySelectorAll('.slide');
+        let currentSlide = 0;
+        let slideInterval;
+
+        function moveSlides(direction = 'next') {
+            if (direction === 'next') {
+                currentSlide = (currentSlide + 1) % slides.length;
+            } else {
+                currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            }
+            slidesContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
+        }
+
+        function nextSlide() {
+            clearInterval(slideInterval);
+            moveSlides('next');
+            startSlideshow();
+        }
+
+        function prevSlide() {
+            clearInterval(slideInterval);
+            moveSlides('prev');
+            startSlideshow();
+        }
+
+        function startSlideshow() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(() => moveSlides('next'), 3000);
+        }
+
+        // Start the slideshow initially
+        startSlideshow();
+
+        // Konfeti
+        function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * window.innerWidth + 'px';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(confetti);
+
+            confetti.addEventListener('animationend', () => {
+                confetti.remove();
+            });
+        }
+
+        setInterval(createConfetti, 500);
+
+        // Smooth scroll ke section video
+        function scrollToVideos() {
+            const videoSection = document.querySelector('.video-section');
+            videoSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Event listener untuk video cards
+        document.querySelectorAll('.video-card').forEach(card => {
+            card.addEventListener('click', function() {
+                alert('Video akan diputar');
+            });
+        });
+
+        // Birthday explosion effect
+        function createExplosion() {
+            const explosion = document.createElement('div');
+            explosion.classList.add('explosion');
+            document.body.appendChild(explosion);
+            setTimeout(() => explosion.remove(), 800);
+        }
+
+        // Trigger explosion on page load
+        window.onload = function() {
+            createExplosion();
+            createBalloons();
+            createCake();
+        };
+
+        // Create balloons
+        function createBalloons() {
+            for (let i = 0; i < 10; i++) {
+                const balloon = document.createElement('div');
+                balloon.classList.add('balloon');
+                balloon.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                document.body.appendChild(balloon);
+            }
+        }
+
+        // Create cake
+        function createCake() {
+            const cake = document.createElement('div');
+            cake.classList.add('cake');
+            document.body.appendChild(cake);
+        }
+    </script>
+</body>
+</html>
